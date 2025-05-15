@@ -46,7 +46,7 @@
     },
     "description": {
       "type": "component",
-      "repeatable": true,
+      "repeatable": false,
       "component": "shared.localised-string",
       "required": true
     }
