@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tenants",
+  "info": {
+    "singularName": "tenant",
+    "pluralName": "tenants",
+    "displayName": "Tenant",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "assetClasses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::asset-class.asset-class",
+      "inversedBy": "tenants"
+    }
+  }
+}

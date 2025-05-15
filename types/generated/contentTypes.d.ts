@@ -369,6 +369,47 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAssetClassAssetClass extends Struct.CollectionTypeSchema {
+  collectionName: 'asset_classes';
+  info: {
+    description: '';
+    displayName: 'Asset Class';
+    pluralName: 'asset-classes';
+    singularName: 'asset-class';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<
+      ['Sedan', 'Hatchback', 'Suv', 'Minivan']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Sedan'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Component<'shared.localised-string', true> &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::asset-class.asset-class'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.Component<'shared.localised-string', false> &
+      Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    state: Schema.Attribute.Enumeration<['Enabled', 'Disabled', 'Draft']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Enabled'>;
+    tenants: Schema.Attribute.Relation<'manyToMany', 'api::tenant.tenant'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   collectionName: 'globals';
   info: {
@@ -394,6 +435,41 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     siteDescription: Schema.Attribute.Text & Schema.Attribute.Required;
     siteName: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTenantTenant extends Struct.CollectionTypeSchema {
+  collectionName: 'tenants';
+  info: {
+    description: '';
+    displayName: 'Tenant';
+    pluralName: 'tenants';
+    singularName: 'tenant';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    assetClasses: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::asset-class.asset-class'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tenant.tenant'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -909,7 +985,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::asset-class.asset-class': ApiAssetClassAssetClass;
       'api::global.global': ApiGlobalGlobal;
+      'api::tenant.tenant': ApiTenantTenant;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

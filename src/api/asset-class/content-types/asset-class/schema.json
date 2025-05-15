@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "asset_classes",
+  "info": {
+    "singularName": "asset-class",
+    "pluralName": "asset-classes",
+    "displayName": "Asset Class",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Sedan",
+        "Hatchback",
+        "Suv",
+        "Minivan"
+      ],
+      "required": true,
+      "default": "Sedan"
+    },
+    "state": {
+      "type": "enumeration",
+      "enum": [
+        "Enabled",
+        "Disabled",
+        "Draft"
+      ],
+      "default": "Enabled",
+      "required": true
+    },
+    "tenants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tenant.tenant",
+      "mappedBy": "assetClasses"
+    },
+    "name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.localised-string",
+      "required": true
+    },
+    "description": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.localised-string",
+      "required": true
+    }
+  }
+}

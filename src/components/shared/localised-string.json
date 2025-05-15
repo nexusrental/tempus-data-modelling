@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_shared_localised_strings",
+  "info": {
+    "displayName": "Localised String",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "default": {
+      "type": "string",
+      "required": true
+    },
+    "de_DE": {
+      "type": "string"
+    }
+  }
+}
